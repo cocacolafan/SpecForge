@@ -343,6 +343,7 @@ def safe_conversations_generator(file_path):
             try:
                 row = json.loads(line)
                 raw_convs = row.get("conversations", [])
+                image = row.get("image", "")
 
                 # 1. Ensure 'conversations' is a list
                 if not isinstance(raw_convs, list):
@@ -377,7 +378,10 @@ def safe_conversations_generator(file_path):
                     cleaned_convs.append(new_msg)
 
                 # Yield only the processed 'conversations'
-                yield {"conversations": cleaned_convs}
+                yield {
+                    "image": image,
+                    "conversations": cleaned_convs,
+                }
 
             except Exception as e:
                 logger.warning(f"Skipping line {i + 1}: {e}")
